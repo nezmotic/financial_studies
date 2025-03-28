@@ -1,11 +1,10 @@
 """Core functionality for savings plan simulations"""
-from datetime import datetime, timedelta
+from datetime import datetime
 import yfinance as yf
 import pandas as pd
 import numpy as np
 from typing import Dict
-import utils  # Make sure this is available in your scripts directory
-
+import utils
 
 def download_stock_data(stock_id: str) -> pd.Series:
     """Download and process historical stock data"""
@@ -18,15 +17,15 @@ def download_stock_data(stock_id: str) -> pd.Series:
     return stock_data.reindex(all_dates).ffill()['Close']
 
 
-# Pre-calculate all possible investment dates upfront
 def precalculate_investment_dates(start, end, interval):
+    """Pre-calculate all possible investment dates upfront"""
     dates = pd.date_range(start=start, end=end, freq=f'{interval}MS')
     return dates[(dates >= start) & (dates <= end)]
 
 
 # Optimized simulate_savings
 def simulate_savings(prices, start_date, end_date, config):
-    """Optimized version using precalculated dates"""
+    """Simulate the savings plan for a specific period based on historical stock data"""
     iv_dates = precalculate_investment_dates(start_date, end_date,
                                              config['saving_interval'])
 
@@ -42,7 +41,7 @@ def simulate_savings(prices, start_date, end_date, config):
 
 
 def calculate_effective_rates(config, num_periods):
-    """Vectorized fee calculation"""
+    """Calculate the effective saving rates for each period"""
     base_rate = config['saving_rate'] - config['order_fee']
 
     if config['closing_fee_total'] > 0:
@@ -56,7 +55,7 @@ def calculate_effective_rates(config, num_periods):
 
 
 def run_simulation(config: Dict) -> pd.DataFrame:
-    """Optimized version using vectorization"""
+    """Simulate the savings plan for all possible investment windows"""
     stock_data = download_stock_data(config['stock_id'])
     scaled_prices = utils.scale_price_data(stock_data,
                                            1 + config['annual_return'] -

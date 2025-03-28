@@ -1,15 +1,16 @@
 # %% [markdown]
 # # Savings Plan Analysis
-# Interactive exploration of savings plan performance
+# This script simulates the investment into a savings plan over
+# a specific period based on historical stock data
 
 # %%
 import matplotlib.pyplot as plt
 import numpy as np
-from scripts.savings_plan import run_simulation
+from scripts.savings_plan_core import run_simulation
 
 # %% [markdown]
 # ## Configuration
-# Adjust these parameters to run different scenarios
+# Adjust these parameters to run different saving plan scenarios
 
 # %%
 CONFIG = {
@@ -27,14 +28,14 @@ CONFIG = {
 
 # %% [markdown]
 # ## Run Simulation
-# This cell executes the core simulation
+# Simulate the savings plan for all possible investment windows
 
 # %%
 results_df = run_simulation(CONFIG)
 
 # %% [markdown]
 # ## Analysis & Visualization
-# Explore the results through interactive visualizations
+# Analyze the distribution of the final portfolio values
 
 # %%
 # Calculate statistics
@@ -60,7 +61,7 @@ plt.show()
 
 # %% [markdown]
 # ## Key Metrics
-# Important statistical measures
+# Display the key metrics of the savings plan distribution
 
 # %%
 print(f"Average Final Value: €{dca_mean:,.2f}")
