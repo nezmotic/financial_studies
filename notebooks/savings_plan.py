@@ -1,0 +1,69 @@
+# %% [markdown]
+# # Savings Plan Analysis
+# Interactive exploration of savings plan performance
+
+# %%
+import matplotlib.pyplot as plt
+import numpy as np
+from scripts.savings_plan import run_simulation
+
+# %% [markdown]
+# ## Configuration
+# Adjust these parameters to run different scenarios
+
+# %%
+CONFIG = {
+    'initial_investment': 100000,    # Initial investment in €
+    'investment_period_years': 30,   # Investment duration
+    'saving_rate': 300,              # Monthly saving amount
+    'saving_interval': 1,            # Months between savings
+    'stock_id': '^GSPC',             # Stock index to track
+    'annual_return': 0.07,           # Expected annual return
+    'order_fee': 1.50,               # Fee per transaction
+    'annual_management_fee': 0.002,  # Annual management fee
+    'closing_fee_total': 0,          # Total closing fees
+    'closing_fee_rate': 0.3          # Closing fee rate
+}
+
+# %% [markdown]
+# ## Run Simulation
+# This cell executes the core simulation
+
+# %%
+results_df = run_simulation(CONFIG)
+
+# %% [markdown]
+# ## Analysis & Visualization
+# Explore the results through interactive visualizations
+
+# %%
+# Calculate statistics
+dca_mean = results_df["Final Value"].mean()
+dca_median = results_df["Final Value"].median()
+percentile_1 = np.percentile(results_df["Final Value"], 1)
+invested = CONFIG['saving_rate'] * (12 / CONFIG['saving_interval']) * CONFIG['investment_period_years']
+
+# Create visualization
+plt.figure(figsize=(14, 7))
+plt.hist(results_df["Final Value"], bins=50, alpha=0.7, color='blue', edgecolor='black')
+plt.axvline(dca_mean, color='red', linestyle='dashed', linewidth=1, label='Mean')
+plt.axvline(dca_median, color='orange', linestyle='dashed', linewidth=1, label='Median')
+plt.axvline(percentile_1, color='purple', linestyle='dashed', linewidth=1, label='1st Percentile')
+plt.axvline(invested, color='black', linestyle='dashed', linewidth=1, label='Invested Amount')
+
+plt.title('Savings Plan Performance Distribution')
+plt.xlabel('Portfolio Value (€)')
+plt.ylabel('Frequency')
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# %% [markdown]
+# ## Key Metrics
+# Important statistical measures
+
+# %%
+print(f"Average Final Value: €{dca_mean:,.2f}")
+print(f"Median Final Value: €{dca_median:,.2f}")
+print(f"1st Percentile Value: €{percentile_1:,.2f}")
+print(f"Total Invested Amount: €{invested:,.2f}")
