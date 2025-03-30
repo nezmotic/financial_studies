@@ -3,11 +3,11 @@ Summary: This script simulates the withdrawal of a fixed amount of money
 from a portfolio invested in the S&P 500 index over a specific period
 """
 
-import yfinance as yf
 import pandas as pd
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import utils
+import yfinance as yf
 
 
 def simulate_withdrawals(start_date: datetime, end_date: datetime, prices: pd.Series)-> float:

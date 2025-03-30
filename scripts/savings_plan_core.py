@@ -1,20 +1,9 @@
 """Core functionality for savings plan simulations"""
-from datetime import datetime
-import yfinance as yf
+
 import pandas as pd
 import numpy as np
 from typing import Dict
-import utils
-
-def download_stock_data(stock_id: str) -> pd.Series:
-    """Download and process historical stock data"""
-    stock_data = yf.download(stock_id, start='1970-01-01',
-                             end=datetime.today().strftime('%Y-%m-%d'))
-    stock_data = stock_data.droplevel(1,
-                                      axis=1) if stock_data.columns.nlevels > 1 else stock_data
-    all_dates = pd.date_range(start=stock_data.index.min(),
-                              end=stock_data.index.max(), freq='D')
-    return stock_data.reindex(all_dates).ffill()['Close']
+from scripts.utils import scale_price_data, download_stock_data
 
 
 def precalculate_investment_dates(start, end, interval):
@@ -25,7 +14,8 @@ def precalculate_investment_dates(start, end, interval):
 
 # Optimized simulate_savings
 def simulate_savings(prices, start_date, end_date, config):
-    """Simulate the savings plan for a specific period based on historical stock data"""
+    """Simulate the savings plan for a specific period based on historical
+    stock data"""
     iv_dates = precalculate_investment_dates(start_date, end_date,
                                              config['saving_interval'])
 
@@ -57,7 +47,7 @@ def calculate_effective_rates(config, num_periods):
 def run_simulation(config: Dict) -> pd.DataFrame:
     """Simulate the savings plan for all possible investment windows"""
     stock_data = download_stock_data(config['stock_id'])
-    scaled_prices = utils.scale_price_data(stock_data,
+    scaled_prices = scale_price_data(stock_data,
                                            1 + config['annual_return'] -
                                            config['annual_management_fee'])
 

@@ -4,6 +4,37 @@ Summary:Useful utility functions for the project
 
 import numpy as np
 import pandas as pd
+import yfinance as yf
+from datetime import datetime
+
+
+def calculate_tax(
+                withdrawal_amount: float,
+                tax_rate: float,
+                tax_free_threshold: float = 0,
+                cost_basis: float = 0
+) -> float:
+    """
+    Calculate capital gains tax on withdrawal amount considering:
+    - Tax-free threshold (monthly)
+    - Cost basis (portion not subject to tax)
+    """
+    taxable_amount = max(
+        (withdrawal_amount - tax_free_threshold) - cost_basis,
+        0
+    )
+    return taxable_amount * tax_rate
+
+
+def download_stock_data(stock_id: str) -> pd.Series:
+    """Download and process historical stock data"""
+    stock_data = yf.download(stock_id, start='1970-01-01',
+                             end=datetime.today().strftime('%Y-%m-%d'))
+    stock_data = stock_data.droplevel(1,
+                                      axis=1) if stock_data.columns.nlevels > 1 else stock_data
+    all_dates = pd.date_range(start=stock_data.index.min(),
+                              end=stock_data.index.max(), freq='D')
+    return stock_data.reindex(all_dates).ffill()['Close']
 
 
 def scale_price_data(price_data: pd.Series,
@@ -24,8 +55,8 @@ def scale_price_data(price_data: pd.Series,
     price_data_scaled = price_data.copy()
     for i in range(len(price_data)):
         price_data_scaled.iloc[i] = price_data.iloc[i] * (
-                    target_interest_rate / interest_rate) ** (
-                                                i * years / len(price_data))
+                target_interest_rate / interest_rate) ** (
+                                            i * years / len(price_data))
     return price_data_scaled
 
 
