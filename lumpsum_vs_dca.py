@@ -111,7 +111,7 @@ lump_sum_percentile = np.percentile(results_df["Lump Sum Value"], 1)
 dca_percentile = np.percentile(results_df["DCA Value"], 1)
 
 # Plot histograms
-plt.figure(figsize=(14, 7))
+plt.figure(figsize=(12, 6))
 
 # Lump Sum
 plt.subplot(1, 2, 1)
@@ -131,7 +131,7 @@ plt.axvline(dca_mean, color='red', linestyle='dashed', linewidth=1, label='Mean'
 plt.axvline(dca_median, color='orange', linestyle='dashed', linewidth=1, label='Median')
 plt.axvline(dca_percentile, color='purple', linestyle='dashed', linewidth=1, label='1st Percentile')
 plt.title('Dollar-Cost Averaging (DCA) Investment')
-plt.xlabel('Portfolio Value')
+plt.xlabel('Portfolio Value (€)')
 plt.ylabel('Frequency')
 plt.legend()
 

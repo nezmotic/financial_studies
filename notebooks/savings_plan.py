@@ -39,16 +39,16 @@ results_df = run_simulation(CONFIG)
 
 # %%
 # Calculate statistics
-dca_mean = results_df["Final Value"].mean()
-dca_median = results_df["Final Value"].median()
+mean = results_df["Final Value"].mean()
+median = results_df["Final Value"].median()
 percentile = np.percentile(results_df["Final Value"], 1)
 invested = CONFIG['saving_rate'] * (12 / CONFIG['saving_interval']) * CONFIG['investment_period_years']
 
 # Create visualization
 plt.figure(figsize=(12, 6))
 plt.hist(results_df["Final Value"], bins=50, alpha=0.7, color='blue', edgecolor='black')
-plt.axvline(dca_mean, color='red', linestyle='dashed', linewidth=1, label='Mean')
-plt.axvline(dca_median, color='orange', linestyle='dashed', linewidth=1, label='Median')
+plt.axvline(mean, color='red', linestyle='dashed', linewidth=1, label='Mean')
+plt.axvline(median, color='orange', linestyle='dashed', linewidth=1, label='Median')
 plt.axvline(percentile, color='purple', linestyle='dashed', linewidth=1, label='1st Percentile')
 plt.axvline(invested, color='black', linestyle='dashed', linewidth=2, label='Invested Amount')
 
@@ -64,7 +64,7 @@ plt.show()
 # Display the key metrics of the savings plan distribution
 
 # %%
-print(f"Average Final Value: €{dca_mean:,.2f}")
-print(f"Median Final Value: €{dca_median:,.2f}")
+print(f"Average Final Value: €{mean:,.2f}")
+print(f"Median Final Value: €{median:,.2f}")
 print(f"1st Percentile Value: €{percentile:,.2f}")
 print(f"Total Invested Amount: €{invested:,.2f}")
