@@ -1,7 +1,6 @@
-"""Core functionality for comparing Lump Sum vs DCA strategies"""
-from datetime import datetime, timedelta
+"""Core functionality for comparing Lump Sum vs DCA"""
+from datetime import datetime
 import pandas as pd
-import numpy as np
 from typing import Dict
 from scripts.utils import download_stock_data, scale_price_data
 
@@ -28,8 +27,8 @@ def simulate_dca(prices: pd.Series, start_date: datetime,
     return total_shares * prices.loc[end_date]
 
 
-def run_comparison_simulation(config: Dict) -> pd.DataFrame:
-    """Run comparison simulation across all historical periods"""
+def run_simulation(config: Dict) -> pd.DataFrame:
+    """Run simulation across all historical periods"""
     raw_data = download_stock_data(config['stock_id'])
     scaled_prices = scale_price_data(raw_data, 1 + config['annual_return'])
 

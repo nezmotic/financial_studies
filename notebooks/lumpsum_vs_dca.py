@@ -1,15 +1,17 @@
 # %% [markdown]
-# # Lump Sum vs DCA Comparison
-# Compare investment strategies using historical market data
+# # Lump Sum vs DCA
+# This script compares the performance of a lump sum investment
+# versus a 12 month Dollar-Cost Averaging (DCA) investment strategy over a
+# specific period based on historical stock data
 
 # %%
 import matplotlib.pyplot as plt
 import numpy as np
-from scripts.lumpsum_vs_dca_core import run_comparison_simulation
+from scripts.lumpsum_vs_dca_core import run_simulation
 
 # %% [markdown]
 # ## Configuration
-# Set investment parameters and strategy settings
+# Adjust these parameters to run different scenarios
 
 # %%
 CONFIG = {
@@ -22,14 +24,14 @@ CONFIG = {
 
 # %% [markdown]
 # ## Run Simulation
-# Execute comparison across all historical windows
+# Simulate lumps sum and DCA investment for all possible investment windows
 
 # %%
-results_df = run_comparison_simulation(CONFIG)
+results_df = run_simulation(CONFIG)
 
 # %% [markdown]
-# ## Strategy Analysis
-# Visualize performance distributions
+# ## Analysis & Visualization
+# Analyze and compare the distribution of the final portfolio values
 
 # %%
 # Calculate statistics
@@ -71,7 +73,7 @@ plt.show()
 
 # %% [markdown]
 # ## Comparative Metrics
-# Display key performance indicators
+# Display and compare the key metrics of both investment strategies
 
 # %%
 print(f"Lump Sum: Average Final Value: €{metrics['Lump Sum Mean']:,.2f}")
