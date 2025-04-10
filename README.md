@@ -1,4 +1,4 @@
-# Fnancial Studies with Python 💰📈
+# Financial Studies with Python
 
 A Python-based toolkit for simulating long-term savings plan investments, withdrawal and other strategies using historical stock market data. Analyze different investment scenarios with customizable parameters and visualize potential outcomes.
 
