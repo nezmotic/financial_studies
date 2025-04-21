@@ -22,8 +22,8 @@ CONFIG = {
     'annual_return': 0.07,           # Expected annual return
     'order_fee': 1.50,               # Fee per transaction
     'annual_management_fee': 0.002,  # Annual management fee
-    'closing_fee_total': 0,          # Total closing fees
-    'closing_fee_rate': 0.3          # Closing fee rate
+    'closing_fee_total': 0,          # Optional: Total closing fees, if saving plan is part of a private pension insurance
+    'closing_fee_rate': 0.3          # Only if there is a closing fee: share of each saving rate until closing fee is reached total
 }
 
 # %% [markdown]
@@ -42,7 +42,7 @@ results_df = run_simulation(CONFIG)
 mean = results_df["Final Value"].mean()
 median = results_df["Final Value"].median()
 percentile = np.percentile(results_df["Final Value"], 1)
-invested = CONFIG['saving_rate'] * (12 / CONFIG['saving_interval']) * CONFIG['investment_period_years']
+invested = CONFIG['initial_investment'] + CONFIG['saving_rate'] * (12 / CONFIG['saving_interval']) * CONFIG['investment_period_years']
 
 # Create visualization
 plt.figure(figsize=(12, 6))
