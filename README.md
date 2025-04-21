@@ -10,13 +10,13 @@ A Python-based toolkit for simulating long-term savings plan investments, withdr
 - Jupyter Notebook interface for interactive analysis
 
 ## Savings Plan Simulator
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/master/notebooks/savings_plan.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/dev/notebooks/savings_plan.ipynb)
 
 ## Withdrawal Plan Simulator
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/master/notebooks/withdrawal_plan.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/dev/notebooks/withdrawal_plan.ipynb)
 
 ## Lump Sum vs. Direct Cost Averaging
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/master/notebooks/lumpsum_vs_dca.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/dev/notebooks/lumpsum_vs_dca.ipynb)
 
 ## Portfolio Optimization Analysis
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/master/notebooks/portfolio_optimization.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/dev/notebooks/portfolio_optimization.ipynb)
