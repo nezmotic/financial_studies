@@ -25,28 +25,32 @@ def portfolio_performance(weights, mean_returns, cov_matrix):
     """
     portfolio_return = np.dot(weights, mean_returns)
     portfolio_risk = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights)))
-    sharpe_ratio = portfolio_return / portfolio_risk
+    sharpe_ratio = (portfolio_return - risk_free_rate) / portfolio_risk
     return portfolio_return, portfolio_risk, sharpe_ratio
 
 # Main parameters
-assets = ["BREB.BR", "AGT.L", "BRK-B", "INVE-A.ST"]
-#assets = ["^GSPC", "EEM", "IJR"]  # SP500, MSCI EM, MSCI Small Caps
+#assets = ["BREB.BR", "AGT.L", "BRK-B", "INVE-A.ST"]
+assets = ["^GSPC", "EEM", "IJR"]  # SP500, MSCI EM, MSCI Small Caps
 #assets = ["^GSPC", "EEM"]  # SP500, MSCI EM
 #assets = ["CGT.L", "BREB.BR"]
+#assets = ["IWDA.AS", "EMIM.AS", "L8I3.DE"]
 
-start_date = "2000-01-01"
-end_date = "2024-01-01"
+start_date = "1995-01-01"
+end_date = "2005-01-01"
 num_portfolios = 10000
+risk_free_rate = 0.02  # 2% p.a.
 
 # Download historical data
+# sort assets by alphabetical order
+assets.sort()
 prices = yf.download(assets, start=start_date, end=end_date)["Close"].dropna()
 
 # Calculate logarithmic returns
-returns = np.log(prices / prices.shift(1)).dropna()
+returns = prices.pct_change().dropna()  # Simple returns instead of log
 
 # Calculate mean returns and covariance matrix
-mean_returns = returns.mean()
-cov_matrix = returns.cov()
+mean_returns = returns.mean() * 252  # Annualized mean returns
+cov_matrix = returns.cov() * 252  # Annualized covariance matrix
 num_assets = len(assets)
 
 # Generate random portfolios
@@ -74,35 +78,15 @@ min_risk_return, min_risk_risk, _ = portfolio_performance(min_risk_weights, mean
 
 # Plot efficiency curve
 plt.figure(figsize=(10, 6))
-plt.scatter(results[1, :], results[0, :], c=results[2, :], cmap="viridis", marker="o", s=10, alpha=0.5)
+plt.scatter(results[1, :] * 100, results[0, :] * 100, c=results[2, :], cmap="viridis", marker="o", s=10, alpha=0.5)
 plt.colorbar(label="Sharpe Ratio")
-plt.scatter(min_risk_risk, min_risk_return, color="red", label="Minimum-Variance Portfolio", zorder=5)
-plt.scatter(max_sharpe_risk, max_sharpe_return, color="blue", label="Tangency Portfolio (Max Sharpe)", zorder=5)
-
-# Annotate portfolios
-plt.annotate(
-    f"MVP\nRisk: {min_risk_risk:.2%}\nReturn: {min_risk_return:.2%}",
-    (min_risk_risk, min_risk_return),
-    textcoords="offset points",
-    xytext=(-70, -30),
-    ha="center",
-    fontsize=9,
-    arrowprops=dict(arrowstyle="->", color="red")
-)
-plt.annotate(
-    f"Max Sharpe\nRisk: {max_sharpe_risk:.2%}\nReturn: {max_sharpe_return:.2%}\nSharpe: {max_sharpe_ratio:.2f}",
-    (max_sharpe_risk, max_sharpe_return),
-    textcoords="offset points",
-    xytext=(50, 20),
-    ha="center",
-    fontsize=9,
-    arrowprops=dict(arrowstyle="->", color="blue")
-)
+plt.scatter(min_risk_risk * 100, min_risk_return * 100, color="red", label="Minimum-Variance Portfolio", zorder=5)
+plt.scatter(max_sharpe_risk * 100, max_sharpe_return * 100, color="blue", label="Tangency Portfolio (Max Sharpe)", zorder=5)
 
 # Add plot details
 plt.title("Efficient Frontier with Tangency Portfolio and Minimum-Variance Portfolio")
-plt.xlabel("Portfolio Risk (Standard Deviation)")
-plt.ylabel("Portfolio Return")
+plt.xlabel("Portfolio Risk [%]")
+plt.ylabel("Portfolio Return [%]")
 plt.legend()
 plt.grid(True)
 plt.show()

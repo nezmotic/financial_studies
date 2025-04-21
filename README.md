@@ -17,3 +17,6 @@ A Python-based toolkit for simulating long-term savings plan investments, withdr
 
 ## Lump Sum vs.Direct Cost Averaging
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/master/notebooks/lumpsum_vs_dca.ipynb)
+
+## Portfolio Optimization Analysis
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nezmotic/financial_studies/blob/master/notebooks/portfolio_analysis.ipynb)
